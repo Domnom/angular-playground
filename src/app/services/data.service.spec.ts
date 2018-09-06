@@ -4,6 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { DataService } from './data.service';
 import { AuthInterceptor } from './../interceptors/auth.interceptor';
+import { RequestCacheInterceptor } from './../interceptors/request-cache.interceptor';
 
 describe('DataService', () => {
   
@@ -22,7 +23,12 @@ describe('DataService', () => {
 	      			provide : HTTP_INTERCEPTORS,
 	      			useClass : AuthInterceptor,
 	      			multi : true
-	      		}
+	      		},
+            {
+              provide : HTTP_INTERCEPTORS,
+              useClass : RequestCacheInterceptor,
+              multi : true
+            }
 	      	]
 	    });
 
@@ -110,4 +116,31 @@ describe('DataService', () => {
 
   		testRequest.flush(errorObj, opts);
   	})
+
+
+    it ("Should cache the request", () => {
+
+      // -- Send 2 duplicate requests. First one should fire the HttpHandle. Second one should subscribe to a duplicate observer
+      dataService.getData().subscribe((data) => { 
+        expect(data.length).toBe(2);
+      });
+      dataService.getData().subscribe((data) => {
+        expect(data.length).toBe(2);
+      });
+
+      // --  There should only be 1 http request (made by the first dataservice get data)
+      var testRequest = httpMock.expectOne("https://jsonplaceholder.typicode.com/posts");
+
+      testRequest.flush([
+        {id : "1", title: "test title"},
+        {id : "1", title: "test title 2"}
+      ]);
+
+      dataService.getData().subscribe((data) => {
+        expect(data.length).toBe(2);
+      })
+
+      httpMock.expectNone("https://jsonplaceholder.typicode.com/posts");
+    });
+
 });

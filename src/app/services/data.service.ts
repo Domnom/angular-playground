@@ -9,25 +9,47 @@ import { map, catchError, tap } from 'rxjs/operators';
 })
 export class DataService {
 
+	requestObservables = {};
+
 	constructor(private http: HttpClient) { }
 
 	getData(): Observable<any[]>
 	{
-	  return this.http
+		var url = "https://jsonplaceholder.typicode.com/posts"
+		
+		// var obs = this.requestObservables[url];
+		// if (!obs)
+		// {
+		// 	obs = this.http
+	 //            .get<any[]>(url)
+	 //            .pipe(
+	 //            	share(),
+	 //                map((data) => {
+
+	 //                  return data.map(el => {
+
+	 //                    return ({
+	 //                      id : el.id,
+	 //                      title : el.title
+	 //                    });
+	 //                  });
+	 //            	})
+	 //            );
+	 //        this.requestObservables[url] = obs;
+		// }
+	 //    return obs;    
+
+		// return {
+		// 	subscribe(func) {
+		// 		func('something');
+		// 	}
+		// }
+
+	  	return this.http
 	            .get<any[]>("https://jsonplaceholder.typicode.com/posts")
 	            .pipe(
 	                map((data) => {
 	                  return data.map(el => {
-	                    
-	                    /*
-	                      Transform the data.
-	                        - Data we are transforming to will need to have the same keys defined in the return object type (Although missing keys will not cause a runtime error)
-	                     */
-	                    
-	                    // return ({
-	                    //   id : el.id,
-	                    //   title : el.title
-	                    // });
 
 	                    return ({
 	                      id : el.id,
