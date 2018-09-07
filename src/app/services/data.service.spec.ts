@@ -93,6 +93,14 @@ describe('DataService', () => {
 
 
   	it ("Should contain a header set by the auth interceptor", () => {
+
+      // -- Lets set an auth token and access token for attaching to the headers
+      var accessToken = "my-access-token";
+      var authToken   = "my-auth-token";
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("authToken", authToken);
+
   		dataService.getData()
   			.subscribe(
   				(data) => {
@@ -105,12 +113,17 @@ describe('DataService', () => {
   		var testRequest = httpMock.expectOne((req) => {
 
         // -- Check to see if the AuthInterceptor has altered the header of this request
-  			return req.headers.get("AuthInterceptorWasHere") == "THIS_IS_A_TOKEN"
+  			return req.headers.get("Authorization") == authToken &&
+               req.headers.get("AccessToken") == accessToken;
 
   		});
 
   		// -- Cleanup the request by flushing
   		testRequest.flush([]);
+
+      // -- Remove the tokens
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('authToken');
   	})
 
 
