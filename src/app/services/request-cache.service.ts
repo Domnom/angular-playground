@@ -9,7 +9,14 @@ import { HttpEvent, HttpResponse } from "@angular/common/http";
 export class RequestCacheService {
 
 	private cache = new Map<string, [Observable<HttpEvent<any>>, HttpResponse<any>]>();
-
+	/*
+	 	{
+			url : [
+				<OBSERVABLE>,
+				<HTTPRESPONSE>
+			]
+	 	}
+	 */
 	constructor() { }
 
 	/**
