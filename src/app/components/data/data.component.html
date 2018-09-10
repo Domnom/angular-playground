@@ -1,0 +1,17 @@
+<div>
+	<form class="getPostForm" (ngSubmit)="fetchPost()" [formGroup]="getPostForm">
+		<div>
+			<label for="getPostId">
+				Id
+			</label>
+			<input type="number" name="getPostId" formControlName="id">
+		</div>
+		<div>
+			<input type="submit" name="submitPostId" value="Get Post">
+		</div>
+	</form>
+
+	<div class="postResults">
+
+	</div>
+</div>

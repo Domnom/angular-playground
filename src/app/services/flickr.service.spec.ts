@@ -51,7 +51,6 @@ describe('FlickrService', () => {
 
 		var testRequest = httpMock.expectOne((req) => {
 
-			console.error(req.url);
 			return req.url == url1 &&
 				   req.method == "GET" &&
 				   req.headers.get("Authorization") != null &&
@@ -73,7 +72,13 @@ describe('FlickrService', () => {
 		    }
 		}
 
-		testRequest.flush(fakeData);
+		var fakeOpts = {
+			status : 200,
+			statusText : "Success",
+			headers : {}
+		}
+
+		testRequest.flush(fakeData, fakeOpts);
 
 		localStorage.removeItem('authToken');
 		localStorage.removeItem('accessToken');

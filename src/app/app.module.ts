@@ -8,11 +8,13 @@ import { DataService } from './services/data.service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RequestCacheInterceptor } from './interceptors/request-cache.interceptor';
 import { AuthComponent } from './components/auth/auth.component';
+import { DataComponent } from './components/data/data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent
+    AuthComponent,
+    DataComponent
   ],
   imports: [
     BrowserModule,

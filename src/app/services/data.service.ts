@@ -13,7 +13,7 @@ export class DataService {
 
 	constructor(private http: HttpClient) { }
 
-	getData(): Observable<any[]>
+	getData(id): Observable<any[]>
 	{
 		var url = "https://jsonplaceholder.typicode.com/posts";
 

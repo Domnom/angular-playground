@@ -28,8 +28,6 @@ export class AuthInterceptor implements HttpInterceptor {
 			headers : myHeaders
 		});
 
-		console.error('asdf', myHeaders)
-
 		// -- Set return to continue the chain
 		return next.handle(newRequest)
 					.pipe(
